@@ -6,7 +6,7 @@ require 'webmock/rspec'
 require 'pry'
 require 'vcr'
 
-require 'bitbucket_rest_api'
+require 'bitbuckets'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
