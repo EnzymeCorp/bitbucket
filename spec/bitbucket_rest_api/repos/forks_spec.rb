@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe BitBucket::Repos::Forks do
@@ -10,7 +11,7 @@ describe BitBucket::Repos::Forks do
         '/2.0/repositories/mock_username/mock_repo/forks/',
         {},
         {}
-      ).and_return(['fork1', 'fork2', 'fork3'])
+      ).and_return(%w[fork1 fork2 fork3])
     end
 
     context 'without a block' do
@@ -33,13 +34,13 @@ describe BitBucket::Repos::Forks do
       expect(forks).to receive(:request).with(
         :post,
         '/1.0/repositories/mock_username/mock_repo/fork',
-        { 'name' => 'mock_fork_name'},
+        { 'name' => 'mock_fork_name' },
         {}
       )
     end
 
     it 'should send a POST request to create a fork of the given repo' do
-      forks.create('mock_username', 'mock_repo', { 'name' => 'mock_fork_name' })
+      forks.create('mock_username', 'mock_repo', 'name' => 'mock_fork_name')
     end
   end
 end

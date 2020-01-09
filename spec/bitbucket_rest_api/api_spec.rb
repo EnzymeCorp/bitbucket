@@ -1,10 +1,11 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe BitBucket::API do
   let(:setup_options) { { user: 'test_user' } }
   let(:bitbucket_api) { described_class.new(setup_options) }
   after do
-    [:user, :login, :password].each do |key|
+    %i[user login password].each do |key|
       bitbucket_api.send "clear_#{key}".to_sym
     end
   end
@@ -19,7 +20,7 @@ describe BitBucket::API do
     context 'valid options' do
       it 'sets valid options' do
         setup_options = {
-          login:    'johnwick',
+          login: 'johnwick',
           password: 'password'
         }
         bitbucket_api = described_class.new(setup_options)
@@ -35,7 +36,7 @@ describe BitBucket::API do
 
         bitbucket_api = described_class.new(setup_options)
 
-        expect{ bitbucket_api.invalid_option }.to raise_error(NoMethodError)
+        expect { bitbucket_api.invalid_option }.to raise_error(NoMethodError)
       end
     end
   end

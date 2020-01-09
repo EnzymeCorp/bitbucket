@@ -1,5 +1,4 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 require 'faraday'
 
 module BitBucket
@@ -7,11 +6,7 @@ module BitBucket
     dependency 'multi_json'
 
     define_parser do |body|
-      if MultiJson.respond_to?(:load)
-        MultiJson.load body
-      else
-        MultiJson.decode body
-      end
+      MultiJson.load(body)
     end
 
     def parse(body)

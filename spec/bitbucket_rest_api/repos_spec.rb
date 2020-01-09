@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe BitBucket::Repos do
@@ -16,13 +17,13 @@ describe BitBucket::Repos do
       expect(repo).to receive(:request).with(
         :post,
         '/1.0/repositories/',
-        BitBucket::Repos::DEFAULT_REPO_OPTIONS.merge({ 'owner' => 'mock_owner', 'name' => 'mock_repo' }),
+        BitBucket::Repos::DEFAULT_REPO_OPTIONS.merge('owner' => 'mock_owner', 'name' => 'mock_repo'),
         {}
       )
     end
 
     it 'should send a POST request to create the repo' do
-      repo.create({ 'owner' => 'mock_owner', 'name' => 'mock_repo' })
+      repo.create('owner' => 'mock_owner', 'name' => 'mock_repo')
     end
   end
 
@@ -49,7 +50,7 @@ describe BitBucket::Repos do
         '/1.0/repositories/mock_username/mock_repo/branches/',
         {},
         {}
-      ).and_return(['branch1', 'branch2', 'branch3'])
+      ).and_return(%w[branch1 branch2 branch3])
     end
 
     context 'without a block' do
@@ -70,13 +71,13 @@ describe BitBucket::Repos do
       expect(repo).to receive(:request).with(
         :put,
         '/1.0/repositories/mock_username/mock_repo/',
-        BitBucket::Repos::DEFAULT_REPO_OPTIONS.merge({ 'owner' => 'mock_owner' }),
+        BitBucket::Repos::DEFAULT_REPO_OPTIONS.merge('owner' => 'mock_owner'),
         {}
       )
     end
 
     it 'should send a PUT request for the given repo' do
-      repo.edit('mock_username', 'mock_repo', { 'owner' => 'mock_owner' })
+      repo.edit('mock_username', 'mock_repo', 'owner' => 'mock_owner')
     end
   end
 
@@ -101,9 +102,9 @@ describe BitBucket::Repos do
       expect(repo).to receive(:request).with(
         :get,
         '/2.0/repositories',
-        {"pagelen" => 100},
+        { 'pagelen' => 100 },
         {}
-      ).and_return(values: ['repo1', 'repo2' ,'repo3'])
+      ).and_return(values: %w[repo1 repo2 repo3])
     end
 
     # FIXME: this method belongs in the User class!
@@ -127,7 +128,7 @@ describe BitBucket::Repos do
         '/1.0/repositories/mock_username/mock_repo/tags/',
         {},
         {}
-      ).and_return(['tag1', 'tag2' ,'tag3'])
+      ).and_return(%w[tag1 tag2 tag3])
     end
 
     context 'without a block' do
@@ -143,8 +144,8 @@ describe BitBucket::Repos do
     end
   end
 
-  describe "getter methods" do
-    it "returns an object of the correct class" do
+  describe 'getter methods' do
+    it 'returns an object of the correct class' do
       expect(repo.changesets).to be_a BitBucket::Repos::Changesets
       expect(repo.keys).to be_a BitBucket::Repos::Keys
       expect(repo.following).to be_a BitBucket::Repos::Following

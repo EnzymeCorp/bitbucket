@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe BitBucket::Repos::Changesets do
@@ -10,7 +11,7 @@ describe BitBucket::Repos::Changesets do
         '/1.0/repositories/mock_username/mock_repo/changesets',
         {},
         {}
-      ).and_return(['changset1', 'changeset2', 'changeset3'])
+      ).and_return(%w[changset1 changeset2 changeset3])
     end
 
     context 'without a block' do

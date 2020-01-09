@@ -1,15 +1,12 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 module BitBucket
   class Users::Account < API
-
-    # API about users/account , please refer to 
+    # API about users/account , please refer to
     # https://confluence.atlassian.com/display/BITBUCKET/account+Resource
-    #  
-
+    #
 
     # GET the account profile
-    # 
+    #
     def profile(accountname)
       response = get_request("/1.0/users/#{accountname}")
     end
@@ -34,18 +31,18 @@ module BitBucket
       response = get_request("/1.0/users/#{accountname}/events")
     end
 
-    #GET the keys
+    # GET the keys
     def keys(accountname)
       response = get_request("/1.0/users/#{accountname}/ssh-keys")
     end
 
-    #POST a new key
+    # POST a new key
     # params should be in format {key: "", label:""}
     def new_key(accountname, params)
       response = post_request("/1.0/users/#{accountname}/ssh-keys/", params)
     end
 
-    #DELETE a key
+    # DELETE a key
     def delete_key(accountname, key_id)
       response = delete_request("/1.0/users/#{accountname}/ssh-keys/#{key_id}")
     end

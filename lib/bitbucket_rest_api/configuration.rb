@@ -1,24 +1,22 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 module BitBucket
   module Configuration
-
-    VALID_OPTIONS_KEYS         = [
-        :adapter,
-        :client_id,
-        :client_secret,
-        :new_access_token,
-        :oauth_token,
-        :oauth_secret,
-        :endpoint,
-        :mime_type,
-        :user_agent,
-        :connection_options,
-        :repo,
-        :user,
-        :login,
-        :password,
-        :basic_auth
+    VALID_OPTIONS_KEYS = %i[
+      adapter
+      client_id
+      client_secret
+      new_access_token
+      oauth_token
+      oauth_secret
+      endpoint
+      mime_type
+      user_agent
+      connection_options
+      repo
+      user
+      login
+      password
+      basic_auth
     ].freeze
 
     # Other adapters are :typhoeus, :patron, :em_synchrony, :excon, :test
@@ -49,16 +47,16 @@ module BitBucket
     DEFAULT_BASIC_AUTH         = nil
 
     # The endpoint used to connect to BitBucket if none is set, in the event that BitBucket is ever available on location
-    DEFAULT_ENDPOINT           = 'https://api.bitbucket.org'.freeze
+    DEFAULT_ENDPOINT           = 'https://api.bitbucket.org'
 
     # The value sent in the http header for 'User-Agent' if none is set
-    DEFAULT_USER_AGENT         = "BitBucket Ruby Gem #{BitBucket::VERSION::STRING}".freeze
+    DEFAULT_USER_AGENT         = "BitBucket Ruby Gem #{BitBucket::VERSION::STRING}"
 
     # By default the <tt>Accept</tt> header will make a request for <tt>JSON</tt>
     DEFAULT_MIME_TYPE          = :json
 
     # By default uses the Faraday connection options if none is set
-    DEFAULT_CONNECTION_OPTIONS = { }
+    DEFAULT_CONNECTION_OPTIONS = {}.freeze
 
     # By default, don't set user name
     DEFAULT_USER               = nil
@@ -78,7 +76,7 @@ module BitBucket
     end
 
     def options
-      options = { }
+      options = {}
       VALID_OPTIONS_KEYS.each { |k| options[k] = send(k) }
       options
     end
@@ -101,6 +99,5 @@ module BitBucket
       self.basic_auth         = DEFAULT_BASIC_AUTH
       self
     end
-
   end # Configuration
 end # BitBucket

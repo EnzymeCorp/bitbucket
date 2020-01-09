@@ -1,5 +1,4 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 require 'faraday'
 require 'base64'
 
@@ -16,15 +15,15 @@ module BitBucket
 
       def initialize(app, *args)
         @app = app
-        credentials = ""
+        credentials = ''
         options = args.extract_options!
-        if options.has_key? :login
+        if options.key? :login
           credentials = "#{options[:login]}:#{options[:password]}"
-        elsif options.has_key? :basic_auth
-          credentials = "#{options[:basic_auth]}"
+        elsif options.key? :basic_auth
+          credentials = (options[:basic_auth]).to_s
         end
         @auth = Base64.encode64(credentials)
-        @auth.gsub!("\n", "")
+        @auth.gsub!("\n", '')
       end
     end # BasicAuth
   end # Request

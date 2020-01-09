@@ -1,6 +1,7 @@
+# frozen_string_literal: true
 module BitBucket
   class Repos::Webhooks < API
-    EVENTS =  [
+    EVENTS = [
       'repo:push',
       'repo:fork',
       'repo:commit_comment_created',
@@ -18,7 +19,7 @@ module BitBucket
       'pullrequest:comment_created',
       'pullrequest:comment_updated',
       'pullrequest:comment_deleted'
-    ]
+    ].freeze
 
     def create(user_name, repo_name, params = {})
       _update_user_repo_params(user_name, repo_name)
@@ -34,8 +35,7 @@ module BitBucket
         'events'
       )
 
-
-      options = { headers: { "Content-Type" => "application/json" } }
+      options = { headers: { 'Content-Type' => 'application/json' } }
       post_request("/2.0/repositories/#{user_name}/#{repo_name}/hooks", params, options)
     end
 
@@ -69,11 +69,11 @@ module BitBucket
         'events'
       )
 
-
-      options = { headers: { "Content-Type" => "application/json" } }
+      options = { headers: { 'Content-Type' => 'application/json' } }
       put_request(
         "/2.0/repositories/#{user_name}/#{repo_name}/hooks/#{hook_uuid}",
-        params, options)
+        params, options
+      )
     end
 
     def delete(user_name, repo_name, hook_uuid)
@@ -86,13 +86,13 @@ module BitBucket
     end
 
     private
+
     def _validate_given_events(params)
       given_events = params['events']
       raise BitBucket::Error::NoEvents if given_events.empty?
+
       given_events.each do |k|
-        unless EVENTS.include?(k)
-          raise BitBucket::Error::BadEvents, k
-        end
+        raise BitBucket::Error::BadEvents, k unless EVENTS.include?(k)
       end
     end
   end

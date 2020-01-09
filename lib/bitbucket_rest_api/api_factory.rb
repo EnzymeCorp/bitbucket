@@ -1,13 +1,12 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 require 'bitbucket_rest_api/core_ext/hash'
 
 module BitBucket
   class ApiFactory
-
     # Instantiates a new bitbucket api object
-    def self.new(klass, options={})
+    def self.new(klass, options = {})
       return create_instance(klass, options) if klass
+
       raise ArgumentError, 'must provide klass to be instantiated'
     end
 
@@ -24,7 +23,7 @@ module BitBucket
       classes.split('::').each do |klass|
         constant = constant.const_get klass
       end
-      return constant
+      constant
     end
   end
 end # BitBucket

@@ -1,11 +1,8 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 module BitBucket
-
-  DEPRECATION_PREFIX = "[BitBucketAPI] Deprecation warning:"
+  DEPRECATION_PREFIX = '[BitBucketAPI] Deprecation warning:'
 
   class << self
-
     attr_writer :deprecation_tracker
 
     def deprecation_tracker
@@ -14,18 +11,19 @@ module BitBucket
 
     # Displays deprecation message to the user.
     # Each message is printed once.
-    def deprecate(method, alternate_method=nil)
+    def deprecate(method, alternate_method = nil)
       return if deprecation_tracker.include? method
+
       deprecation_tracker << method
 
-      message = <<-NOTICE
-#{DEPRECATION_PREFIX}
+      message = <<~NOTICE
+        #{DEPRECATION_PREFIX}
 
-* #{method} is deprecated.
+        * #{method} is deprecated.
       NOTICE
       if alternate_method
-        message << <<-ADDITIONAL
-* please use #{alternate_method} instead.
+        message << <<~ADDITIONAL
+          * please use #{alternate_method} instead.
         ADDITIONAL
       end
       warn_deprecation(message)
@@ -35,5 +33,4 @@ module BitBucket
       send :warn, message
     end
   end
-
 end # BitBucket

@@ -1,12 +1,11 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 require 'faraday'
 
 module BitBucket
   # Contains methods and attributes that act on the response returned from the
   # request
   class Response < Faraday::Response::Middleware
-    CONTENT_TYPE = 'Content-Type'.freeze
+    CONTENT_TYPE = 'Content-Type'
 
     class << self
       attr_accessor :parser
@@ -23,6 +22,5 @@ module BitBucket
     def parse_response?(env)
       env[:body].respond_to? :to_str
     end
-
   end # Response
 end # BitBucket

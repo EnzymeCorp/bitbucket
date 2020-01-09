@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe BitBucket::Repos::Following do
@@ -10,7 +11,7 @@ describe BitBucket::Repos::Following do
         '/1.0/repositories/mock_username/mock_repo/followers/',
         {},
         {}
-      ).and_return(['follower1', 'follower2', 'follower3'])
+      ).and_return(%w[follower1 follower2 follower3])
     end
 
     context 'without a block' do
@@ -34,7 +35,7 @@ describe BitBucket::Repos::Following do
         '/1.0/user/follows',
         {},
         {}
-      ).and_return(['followed1', 'followed2', 'followed3'])
+      ).and_return(%w[followed1 followed2 followed3])
     end
 
     context 'without a block' do

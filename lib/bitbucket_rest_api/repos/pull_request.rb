@@ -1,8 +1,6 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 module BitBucket
   class Repos::PullRequest < API
-
     # List pull requests
     #
     # = Examples
@@ -10,16 +8,17 @@ module BitBucket
     #  bitbucket.repos.pull_request.list 'user-name', 'repo-name'
     #  bitbucket.repos.pull_request.list 'user-name', 'repo-name' { |status| ... }
     #
-    def list(user_name, repo_name, params={})
+    def list(user_name, repo_name, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params
 
       response = get_request("/2.0/repositories/#{user}/#{repo.downcase}/pullrequests", params)
       return response unless block_given?
+
       response.each { |el| yield el }
     end
-    alias :all :list
+    alias all list
 
     # List pull request participants
     #
@@ -28,17 +27,18 @@ module BitBucket
     #  bitbucket.repos.pull_request.list 'user-name', 'repo-name'
     #  bitbucket.repos.pull_request.list 'user-name', 'repo-name' { |status| ... }
     #
-    def participants(user_name, repo_name, pull_request_id, params={})
+    def participants(user_name, repo_name, pull_request_id, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params
 
       response = get_request("/1.0/repositories/#{user}/#{repo.downcase}/pullrequests/#{pull_request_id}/participants", params)
       return response unless block_given?
+
       response.each { |el| yield el }
     end
 
-    def get(user_name, repo_name, pull_request_id, params={})
+    def get(user_name, repo_name, pull_request_id, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params
@@ -47,7 +47,7 @@ module BitBucket
       return response unless block_given?
     end
 
-    def create(user_name, repo_name, params={})
+    def create(user_name, repo_name, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params
@@ -56,7 +56,7 @@ module BitBucket
       return response unless block_given?
     end
 
-    def update(user_name, repo_name, pull_request_id, params={})
+    def update(user_name, repo_name, pull_request_id, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params
@@ -65,7 +65,7 @@ module BitBucket
       return response unless block_given?
     end
 
-    def commits(user_name, repo_name, pull_request_id, params={})
+    def commits(user_name, repo_name, pull_request_id, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params
@@ -74,7 +74,7 @@ module BitBucket
       return response unless block_given?
     end
 
-    def approve(user_name, repo_name, pull_request_id, params={})
+    def approve(user_name, repo_name, pull_request_id, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params
@@ -83,7 +83,7 @@ module BitBucket
       return response unless block_given?
     end
 
-    def delete_approval(user_name, repo_name, pull_request_id, params={})
+    def delete_approval(user_name, repo_name, pull_request_id, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params
@@ -92,7 +92,7 @@ module BitBucket
       return response unless block_given?
     end
 
-    def diff(user_name, repo_name, pull_request_id, params={})
+    def diff(user_name, repo_name, pull_request_id, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params
@@ -101,8 +101,7 @@ module BitBucket
       return response unless block_given?
     end
 
-
-    def all_activity(user_name, repo_name, params={})
+    def all_activity(user_name, repo_name, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params
@@ -111,8 +110,7 @@ module BitBucket
       return response unless block_given?
     end
 
-
-    def activity(user_name, repo_name, pull_request_id, params={})
+    def activity(user_name, repo_name, pull_request_id, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params
@@ -121,7 +119,7 @@ module BitBucket
       return response unless block_given?
     end
 
-    def merge(user_name, repo_name, pull_request_id, params={})
+    def merge(user_name, repo_name, pull_request_id, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params
@@ -130,7 +128,7 @@ module BitBucket
       return response unless block_given?
     end
 
-    def decline(user_name, repo_name, pull_request_id, params={})
+    def decline(user_name, repo_name, pull_request_id, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params
@@ -139,7 +137,7 @@ module BitBucket
       return response unless block_given?
     end
 
-    def comments(user_name, repo_name, pull_request_id, params={})
+    def comments(user_name, repo_name, pull_request_id, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params
@@ -148,7 +146,7 @@ module BitBucket
       return response unless block_given?
     end
 
-    def comment(user_name, repo_name, pull_request_id, comment_id, params={})
+    def comment(user_name, repo_name, pull_request_id, comment_id, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params

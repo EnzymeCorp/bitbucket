@@ -1,12 +1,10 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 require 'faraday'
 
 module BitBucket
   class Request::Jsonize < Faraday::Middleware
-
-    CONTENT_TYPE = 'Content-Type'.freeze
-    MIME_TYPE    = 'application/json'.freeze
+    CONTENT_TYPE = 'Content-Type'
+    MIME_TYPE    = 'application/json'
 
     dependency 'multi_json'
 
@@ -19,21 +17,17 @@ module BitBucket
     end
 
     def encode_body(env)
-      if MultiJson.respond_to?(:dump)
-        MultiJson.dump env[:body]
-      else
-        MultiJson.encode env[:body]
-      end
+      MultiJson.dump(env[:body])
     end
 
     def request_with_body?(env)
       type = request_type(env)
-      has_body?(env) and (type.empty? or type == MIME_TYPE)
+      has_body?(env) && (type.empty? || (type == MIME_TYPE))
     end
 
     # Don't encode bodies in string form
     def has_body?(env)
-      body = env[:body] and !(body.respond_to?(:to_str) and body.empty?)
+      (body = env[:body]) && !(body.respond_to?(:to_str) && body.empty?)
     end
 
     def request_type(env)
@@ -41,6 +35,5 @@ module BitBucket
       type = type.split(';', 2).first if type.index(';')
       type
     end
-
   end # Request::Jsonize
 end # BitBucket

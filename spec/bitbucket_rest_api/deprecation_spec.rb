@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe BitBucket do
-  let(:method) { 'create_repos'}
-  let(:alt_method) { 'repos.create'}
+  let(:method) { 'create_repos' }
+  let(:alt_method) { 'repos.create' }
 
   it { expect(described_class.constants).to include :DEPRECATION_PREFIX }
 
@@ -12,13 +13,13 @@ describe BitBucket do
     end
 
     it 'tracks messages' do
-      expect(BitBucket).to receive(:warn).once()
+      expect(BitBucket).to receive(:warn).once
       BitBucket.deprecate(method)
       BitBucket.deprecate(method)
     end
 
     it 'prints the message through Kernel' do
-      expect(BitBucket).to receive(:warn).once()
+      expect(BitBucket).to receive(:warn).once
       BitBucket.deprecate method
     end
   end

@@ -1,8 +1,6 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 module BitBucket
   class API
-
     # Returns all API public methods for a given class.
     def self.inherited(klass)
       klass.class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
@@ -22,14 +20,13 @@ module BitBucket
         methods << method
       end
       klass.included_modules.each do |mod|
-        if mod.to_s =~ /#{klass}/
-          mod.instance_methods(false).each do |met|
-            methods << met
-          end
+        next unless mod.to_s =~ /#{klass}/
+
+        mod.instance_methods(false).each do |met|
+          methods << met
         end
       end
       methods
     end
-
   end # API
 end # BitBucket

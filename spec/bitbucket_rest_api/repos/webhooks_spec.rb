@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe BitBucket::Repos::Webhooks, wip: true do
@@ -84,7 +85,6 @@ describe BitBucket::Repos::Webhooks, wip: true do
           'mock_username',
           'mock_repo',
           bad_event_params
-
         )
       end.to raise_error(
         BitBucket::Error::BadEvents,
@@ -103,7 +103,7 @@ describe BitBucket::Repos::Webhooks, wip: true do
         )
       end.to raise_error(
         BitBucket::Error::NoEvents,
-        "At least one event is required, none given :("
+        'At least one event is required, none given :('
       )
     end
 
@@ -112,7 +112,7 @@ describe BitBucket::Repos::Webhooks, wip: true do
         :post,
         '/2.0/repositories/mock_username/mock_repo/hooks',
         post_put_params,
-        { headers: { "Content-Type" => "application/json" } }
+        headers: { 'Content-Type' => 'application/json' }
       )
 
       subject.create(
@@ -209,7 +209,7 @@ describe BitBucket::Repos::Webhooks, wip: true do
         )
       end.to raise_error(
         BitBucket::Error::NoEvents,
-        "At least one event is required, none given :("
+        'At least one event is required, none given :('
       )
     end
 
@@ -218,7 +218,7 @@ describe BitBucket::Repos::Webhooks, wip: true do
         :put,
         '/2.0/repositories/mock_username/mock_repo/hooks/mock_uuid',
         post_put_params,
-        { headers: { "Content-Type" => "application/json" } }
+        headers: { 'Content-Type' => 'application/json' }
       )
 
       subject.edit(

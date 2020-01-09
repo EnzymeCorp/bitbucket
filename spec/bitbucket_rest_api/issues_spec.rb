@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 require 'ostruct'
 
@@ -15,7 +16,7 @@ describe BitBucket::Issues do
     end
 
     it 'should send a POST request to create the issue' do
-      issue.create('mock_username', 'mock_repo', { 'title' => 'mock_issue' })
+      issue.create('mock_username', 'mock_repo', 'title' => 'mock_issue')
     end
   end
 
@@ -30,7 +31,7 @@ describe BitBucket::Issues do
     end
 
     it 'should send a PUT request for the given issue' do
-      issue.edit('mock_username', 'mock_repo', 1, { 'title' => 'new_title' })
+      issue.edit('mock_username', 'mock_repo', 1, 'title' => 'new_title')
     end
   end
 
@@ -71,7 +72,7 @@ describe BitBucket::Issues do
         '/1.0/repositories/mock_username/mock_repo/issues',
         {},
         {}
-      ).and_return(OpenStruct.new(:issues => [])).twice
+      ).and_return(OpenStruct.new(issues: [])).twice
     end
 
     it 'should send a GET request for the issues for that repo' do
@@ -80,8 +81,8 @@ describe BitBucket::Issues do
     end
   end
 
-  describe "getter methods" do
-    it "returns an object of the correct class" do
+  describe 'getter methods' do
+    it 'returns an object of the correct class' do
       expect(issue.comments).to be_a BitBucket::Issues::Comments
       expect(issue.components).to be_a BitBucket::Issues::Components
       expect(issue.milestones).to be_a BitBucket::Issues::Milestones

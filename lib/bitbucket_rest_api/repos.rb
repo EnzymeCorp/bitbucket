@@ -1,31 +1,30 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 module BitBucket
   class Repos < API
     extend AutoloadHelper
 
     # Load all the modules after initializing Repos to avoid superclass mismatch
     autoload_all 'bitbucket_rest_api/repos',
-                 :Changesets  => 'changesets',
-                 :Keys        => 'keys',
-                 :Services    => 'services',
-                 :Following   => 'following',
-                 :Sources     => 'sources',
-                 :Forks       => 'forks',
-                 :Commits     => 'commits',
-                 :Download    => 'download',
-                 :Webhooks    => 'webhooks',
-                 :PullRequest => 'pull_request',
-                 :DefaultReviewers => 'default_reviewers',
-                 :Components => 'components'
+                 Changesets: 'changesets',
+                 Keys: 'keys',
+                 Services: 'services',
+                 Following: 'following',
+                 Sources: 'sources',
+                 Forks: 'forks',
+                 Commits: 'commits',
+                 Download: 'download',
+                 Webhooks: 'webhooks',
+                 PullRequest: 'pull_request',
+                 DefaultReviewers: 'default_reviewers',
+                 Components: 'components'
 
     DEFAULT_REPO_OPTIONS = {
-        "website"         => "",
-        "is_private"      => false,
-        "has_issues"      => false,
-        "has_wiki"        => false,
-        "scm"             => "git",
-        "no_public_forks" => false
+      'website' => '',
+      'is_private' => false,
+      'has_issues' => false,
+      'has_wiki' => false,
+      'scm' => 'git',
+      'no_public_forks' => false
     }.freeze
 
     VALID_REPO_OPTIONS = %w[
@@ -42,7 +41,7 @@ module BitBucket
     ].freeze
 
     # Creates new Repositories API
-    def initialize(options = { })
+    def initialize(options = {})
       super(options)
     end
 
@@ -70,14 +69,17 @@ module BitBucket
     def services
       @services ||= ApiFactory.new 'Repos::Services'
     end
+
     def forks
       @forks ||= ApiFactory.new 'Repos::Forks'
     end
+
     def commits
-      @commits ||=ApiFactory.new 'Repos::Commits'
+      @commits ||= ApiFactory.new 'Repos::Commits'
     end
+
     def download
-      @download ||=ApiFactory.new "Repos::Download"
+      @download ||= ApiFactory.new 'Repos::Download'
     end
 
     # Access to Repos::PullRequests API
@@ -107,17 +109,18 @@ module BitBucket
     #   repos = BitBucket::Repos.new
     #   repos.branches 'user-name', 'repo-name'
     #
-    def branches(user_name, repo_name, params={})
+    def branches(user_name, repo_name, params = {})
       _update_user_repo_params(user_name, repo_name)
-      _validate_user_repo_params(user, repo) unless (user? && repo?)
+      _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params
 
       response = get_request("/1.0/repositories/#{user}/#{repo.downcase}/branches/", params)
       return response unless block_given?
+
       response.each { |el| yield el }
     end
 
-    alias :list_branches :branches
+    alias list_branches branches
 
     # FIXME: 'POST a new repository' is a deprecated feature of the API
     # Create a new repository for the authenticated user.
@@ -150,11 +153,11 @@ module BitBucket
     def create(*args)
       params = args.extract_options!
       normalize! params
-      filter! VALID_REPO_OPTIONS + %w[ org ], params
-      assert_required_keys(%w[ name ], params)
+      filter! VALID_REPO_OPTIONS + %w[org], params
+      assert_required_keys(%w[name], params)
 
       # Requires authenticated user
-      post_request("/1.0/repositories/", DEFAULT_REPO_OPTIONS.merge(params))
+      post_request('/1.0/repositories/', DEFAULT_REPO_OPTIONS.merge(params))
     end
 
     # Edit a repository
@@ -177,7 +180,7 @@ module BitBucket
     #    :website => "https://bitbucket.com",
     #    :public => true, :has_issues => true
     #
-    def edit(user_name, repo_name, params={ })
+    def edit(user_name, repo_name, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
 
@@ -193,7 +196,7 @@ module BitBucket
     #  bitbucket = BitBucket.new
     #  bitbucket.repos.get 'user-name', 'repo-name'
     #
-    def get(user_name, repo_name, params={ })
+    def get(user_name, repo_name, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params
@@ -201,7 +204,7 @@ module BitBucket
       get_request("/1.0/repositories/#{user}/#{repo.downcase}", params)
     end
 
-    alias :find :get
+    alias find get
 
     # FIXME: 'DELETE an existing repository' is a deprecated feature of the API
     # Delete a repository
@@ -233,19 +236,20 @@ module BitBucket
     def list(*args)
       params = args.extract_options!
       normalize! params
-      _merge_user_into_params!(params) unless params.has_key?('user')
-      params.merge!('pagelen' => 100) unless params.has_key?('pagelen')
-      
-      filter! %w[ user role pagelen ], params
+      _merge_user_into_params!(params) unless params.key?('user')
+      params.merge!('pagelen' => 100) unless params.key?('pagelen')
 
-      response = get_request("/2.0/repositories", params)
+      filter! %w[user role pagelen], params
+
+      response = get_request('/2.0/repositories', params)
 
       response = response[:values]
       return response unless block_given?
+
       response.each { |el| yield el }
     end
 
-    alias :all :list
+    alias all list
 
     # List tags
     #
@@ -254,19 +258,19 @@ module BitBucket
     #   bitbucket.repos.tags 'user-name', 'repo-name'
     #   bitbucket.repos.tags 'user-name', 'repo-name' { |tag| ... }
     #
-    def tags(user_name, repo_name, params={ })
+    def tags(user_name, repo_name, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params
 
       response = get_request("/1.0/repositories/#{user}/#{repo.downcase}/tags/", params)
       return response unless block_given?
+
       response.each { |el| yield el }
     end
 
-    alias :list_tags :tags
-    alias :repo_tags :tags
-    alias :repository_tags :tags
-
+    alias list_tags tags
+    alias repo_tags tags
+    alias repository_tags tags
   end # Repos
 end # BitBucket

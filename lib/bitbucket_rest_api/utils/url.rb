@@ -1,30 +1,36 @@
+# frozen_string_literal: true
 require 'cgi'
 
 module BitBucket
   module Utils
     module Url
-      extend self
+      module_function
 
-      DEFAULT_QUERY_SEP = /[&;] */n
+      DEFAULT_QUERY_SEP = /[&;] */n.freeze
 
-      KEY_VALUE_SEP = '='.freeze
+      KEY_VALUE_SEP = '='
 
-      def escape(s) CGI.escape s.to_s end
+      def escape(s)
+        CGI.escape s.to_s
+      end
 
-      def unescape(s) CGI.unescape s.to_s end
+      def unescape(s)
+        CGI.unescape s.to_s
+      end
 
       def build_query(params)
-        params.map { |k, v|
+        params.map do |k, v|
           if v.class == Array
             build_query(v.map { |x| [k, x] })
           else
             v.nil? ? escape(k) : "#{escape(k)}=#{escape(v)}"
           end
-        }.join("&")
+        end.join('&')
       end
 
       def parse_query(query_string)
         return '' if query_string.nil? || query_string.empty?
+
         params = {}
 
         query_string.split(DEFAULT_QUERY_SEP).each do |part|
@@ -46,11 +52,10 @@ module BitBucket
       def parse_query_for_param(query_string, name)
         parse_query(query_string).each do |key, val|
           return val.first if (name == key) && val.is_a?(Array)
-          return val if (name == key)
+          return val if name == key
         end
-        return nil
+        nil
       end
-
     end # Url
   end # Utils
 end # BitBucket

@@ -1,5 +1,4 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 module BitBucket
   module Error
     class BitBucketError < StandardError
@@ -10,9 +9,9 @@ module BitBucket
         @response_message = message
       end
 
-#       def inspect
-#         %(#<#{self.class}>)
-#       end
+      #       def inspect
+      #         %(#<#{self.class}>)
+      #       end
     end
   end # Error
 end # BitBucket

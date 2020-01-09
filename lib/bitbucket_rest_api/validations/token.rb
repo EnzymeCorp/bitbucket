@@ -1,27 +1,25 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 # TODO: Set token required calls
 
 module BitBucket
   module Validations
     module Token
-
       TOKEN_REQUIRED = [
-          'get /user',
-          'get /user/emails',
-          'get /user/followers',
-          'get /user/following',
-          'get /user/keys',
-          'get /user/repos',
-          'patch /user',
-          'post /user/emails',
-          'post /user/keys',
-          'post /user/repos'
-      ]
+        'get /user',
+        'get /user/emails',
+        'get /user/followers',
+        'get /user/following',
+        'get /user/keys',
+        'get /user/repos',
+        'patch /user',
+        'post /user/emails',
+        'post /user/keys',
+        'post /user/repos'
+      ].freeze
 
       TOKEN_REQUIRED_REGEXP = [
-          /repos\/.*\/.*\/comments/,
-      ]
+        %r{repos/.*/.*/comments}
+      ].freeze
 
       # Ensures that required authentication token is present before
       # request is sent.
@@ -31,13 +29,10 @@ module BitBucket
 
         token_required = false
         TOKEN_REQUIRED_REGEXP.each do |regex|
-          if "#{method} #{path}" =~ regex
-            token_required = true
-          end
+          token_required = true if "#{method} #{path}" =~ regex
         end
-        return token_required
+        token_required
       end
-
     end # Token
   end # Validations
 end # BitBucket

@@ -1,9 +1,7 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 module BitBucket
   module Validations
     module Required
-
       # Validate all keys present in a provided hash against required set,
       # on mismatch raise BitBucket::Error::RequiredParams
       # Note that keys need to be in the same format i.e. symbols or strings,
@@ -13,9 +11,8 @@ module BitBucket
         result = required.all? do |key|
           provided.has_deep_key? key
         end
-        if !result
-          raise BitBucket::Error::RequiredParams.new(provided, required)
-        end
+        raise BitBucket::Error::RequiredParams.new(provided, required) unless result
+
         result
       end
 
@@ -27,18 +24,14 @@ module BitBucket
         required.each do |encoded_string|
           keys = parse_values(encoded_string)
           value = keys.inject(params) { |params, key| params[key] }
-          if value.is_a?(String)
-            if value.empty?
-              raise BitBucket::Error::BlankValue.new(encoded_string)
-            end
-          end
+          next unless value.is_a?(String)
+          raise BitBucket::Error::BlankValue, encoded_string if value.empty?
         end
       end
 
       def parse_values(string)
         string.split(':')
       end
-
     end # Required
   end # Validations
 end # BitBucket

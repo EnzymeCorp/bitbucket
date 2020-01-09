@@ -1,6 +1,6 @@
+# frozen_string_literal: true
 module BitBucket
   class Repos::DefaultReviewers < API
-
     # List default reviewers
     #
     # = Examples
@@ -8,15 +8,16 @@ module BitBucket
     #  bitbucket.repos.default_reviewers.list 'user-name', 'repo-name'
     #  bitbucket.repos.default_reviewers.list 'user-name', 'repo-name' { |reviewer| ... }
     #
-    def list(user_name, repo_name, params={})
+    def list(user_name, repo_name, params = {})
       update_and_validate_user_repo_params(user_name, repo_name)
       normalize! params
 
       response = get_request("/2.0/repositories/#{user_name}/#{repo_name}/default-reviewers", params)
       return response unless block_given?
+
       response.each { |el| yield el }
     end
-    alias :all :list
+    alias all list
 
     # Get a default reviewer's info
     #
@@ -24,7 +25,7 @@ module BitBucket
     #  bitbucket = BitBucket.new
     #  bitbucket.repos.default_reviewers.get 'user-name', 'repo-name', 'reviewer-username'
     #
-    def get(user_name, repo_name, reviewer_username, params={})
+    def get(user_name, repo_name, reviewer_username, params = {})
       update_and_validate_user_repo_params(user_name, repo_name)
       normalize! params
 
@@ -37,7 +38,7 @@ module BitBucket
     #  bitbucket = BitBucket.new
     #  bitbucket.repos.default_reviewers.add 'user-name', 'repo-name', 'reviewer-username'
     #
-    def add(user_name, repo_name, reviewer_username, params={})
+    def add(user_name, repo_name, reviewer_username, params = {})
       update_and_validate_user_repo_params(user_name, repo_name)
       normalize! params
 
@@ -50,7 +51,7 @@ module BitBucket
     #  bitbucket = BitBucket.new
     #  bitbucket.repos.default_reviewers.remove 'user-name', 'repo-name', 'reviewer-username'
     #
-    def remove(user_name, repo_name, reviewer_username, params={})
+    def remove(user_name, repo_name, reviewer_username, params = {})
       update_and_validate_user_repo_params(user_name, repo_name)
       normalize! params
       delete_request("/2.0/repositories/#{user_name}/#{repo_name}/default-reviewers/#{reviewer_username}", params)

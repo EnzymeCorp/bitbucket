@@ -1,13 +1,12 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 module BitBucket
   class Issues < API
     extend AutoloadHelper
 
     autoload_all 'bitbucket_rest_api/issues',
-                 :Comments   => 'comments',
-                 :Components => 'components',
-                 :Milestones => 'milestones'
+                 Comments: 'comments',
+                 Components: 'components',
+                 Milestones: 'milestones'
 
     VALID_ISSUE_PARAM_NAMES = %w[
       title
@@ -27,13 +26,13 @@ module BitBucket
     ].freeze
 
     VALID_ISSUE_PARAM_VALUES = {
-        'priority'    => %w[ trivial minor major critical blocker ],
-        'status'     => ['new', 'open', 'resolved', 'on hold', 'invalid', 'duplicate', 'wontfix'],
-        'kind'      => %w[ bug enhancement proposal task ]
-    }
+      'priority' => %w[trivial minor major critical blocker],
+      'status' => ['new', 'open', 'resolved', 'on hold', 'invalid', 'duplicate', 'wontfix'],
+      'kind' => %w[bug enhancement proposal task]
+    }.freeze
 
     # Creates new Issues API
-    def initialize(options = { })
+    def initialize(options = {})
       super(options)
     end
 
@@ -73,7 +72,7 @@ module BitBucket
     #  bitbucket = BitBucket.new :user => 'user-name', :repo => 'repo-name'
     #  bitbucket.issues.list_repo :filter => 'kind=bug&kind=enhancement'
     #
-    def list_repo(user_name, repo_name, params={ })
+    def list_repo(user_name, repo_name, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
 
@@ -84,10 +83,11 @@ module BitBucket
 
       response = get_request("/1.0/repositories/#{user}/#{repo.downcase}/issues", params)
       return response.issues unless block_given?
+
       response.issues.each { |el| yield el }
     end
 
-    alias :list_repository :list_repo
+    alias list_repository list_repo
 
     # Get a single issue
     #
@@ -95,7 +95,7 @@ module BitBucket
     #  bitbucket = BitBucket.new
     #  bitbucket.issues.get 'user-name', 'repo-name', 'issue-id'
     #
-    def get(user_name, repo_name, issue_id, params={ })
+    def get(user_name, repo_name, issue_id, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       _validate_presence_of issue_id
@@ -106,7 +106,7 @@ module BitBucket
       get_request("/1.0/repositories/#{user}/#{repo.downcase}/issues/#{issue_id}", params)
     end
 
-    alias :find :get
+    alias find get
 
     # Delete a single issue
     #
@@ -114,7 +114,7 @@ module BitBucket
     #  bitbucket = BitBucket.new
     #  bitbucket.issues.delete 'user-name', 'repo-name', 'issue-id'
     #
-    def delete(user_name, repo_name, issue_id, params={ })
+    def delete(user_name, repo_name, issue_id, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       _validate_presence_of issue_id
@@ -163,15 +163,15 @@ module BitBucket
     #    "milestone" => 1,
     #    "priority" => "blocker"
     #
-    def create(user_name, repo_name, params={ })
+    def create(user_name, repo_name, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
 
       normalize! params
-      _merge_user_into_params!(params) unless params.has_key?('user')
+      _merge_user_into_params!(params) unless params.key?('user')
       # _merge_mime_type(:issue, params)
       filter! VALID_ISSUE_PARAM_NAMES, params
-      assert_required_keys(%w[ title ], params)
+      assert_required_keys(%w[title], params)
 
       post_request("/1.0/repositories/#{user}/#{repo.downcase}/issues/", params)
     end
@@ -214,7 +214,7 @@ module BitBucket
     #    "milestone" => 1,
     #    "priority" => "blocker"
     #
-    def edit(user_name, repo_name, issue_id, params={ })
+    def edit(user_name, repo_name, issue_id, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       _validate_presence_of issue_id
@@ -225,6 +225,5 @@ module BitBucket
 
       put_request("/1.0/repositories/#{user}/#{repo.downcase}/issues/#{issue_id}/", params)
     end
-
   end # Issues
 end # BitBucket

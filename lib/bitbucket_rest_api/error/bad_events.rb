@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module BitBucket
   module Error
     class BadEvents < ClientError

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 require 'bitbucket_rest_api/core_ext/array'
 
@@ -6,7 +7,7 @@ describe Array do
 
   describe '#extract_options!' do
     it 'selects a hash from the arguments list' do
-      expect(array.extract_options!).to eq({ key: :value })
+      expect(array.extract_options!).to eq(key: :value)
     end
   end
 end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe BitBucket::Issues::Comments do
@@ -10,7 +11,7 @@ describe BitBucket::Issues::Comments do
         '/1.0/repositories/mock_username/mock_repo/issues/mock_issue_id/comments/',
         {},
         {}
-      ).and_return(['comment1', 'comment2', 'comment3'])
+      ).and_return(%w[comment1 comment2 comment3])
     end
 
     context 'without a block' do
@@ -46,7 +47,7 @@ describe BitBucket::Issues::Comments do
       expect(comments).to receive(:request).with(
         :post,
         '/1.0/repositories/mock_username/mock_repo/issues/mock_issue_id/comments/',
-        {'content' => 'mock_comment'},
+        { 'content' => 'mock_comment' },
         {}
       )
     end
@@ -61,7 +62,7 @@ describe BitBucket::Issues::Comments do
       expect(comments).to receive(:request).with(
         :put,
         '/1.0/repositories/mock_username/mock_repo/issues/comments/mock_comment_id',
-        {'content' => 'new_mock_comment'},
+        { 'content' => 'new_mock_comment' },
         {}
       )
     end
@@ -86,4 +87,3 @@ describe BitBucket::Issues::Comments do
     end
   end
 end
-

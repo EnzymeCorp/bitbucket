@@ -1,15 +1,13 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe Hash do
-
   before do
     BitBucket.new
-    @hash = { :a => 1, :b => 2, :c => 'e'}
-    @serialized = "a=1&b=2&c=e"
-    @nested_hash = { 'a' => { 'b' => {'c' => 1 } } }
-    @symbols = { :a => { :b => { :c => 1 } } }
+    @hash = { a: 1, b: 2, c: 'e' }
+    @serialized = 'a=1&b=2&c=e'
+    @nested_hash = { 'a' => { 'b' => { 'c' => 1 } } }
+    @symbols = { a: { b: { c: 1 } } }
   end
 
   context '#symbolize_keys' do
@@ -26,8 +24,8 @@ describe Hash do
     it 'should convert nested keys to symbols' do
       expect(@nested_hash.symbolize_keys!).to eq @symbols
 
-      @nested_hash_with_array = { 'a' => { 'b' => [{'c' => 1}] } }
-      expect(@nested_hash_with_array.symbolize_keys!).to eq({:a=>{:b=>[{:c=>1}]}})
+      @nested_hash_with_array = { 'a' => { 'b' => [{ 'c' => 1 }] } }
+      expect(@nested_hash_with_array.symbolize_keys!).to eq(a: { b: [{ c: 1 }] })
     end
   end
 

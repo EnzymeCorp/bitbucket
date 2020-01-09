@@ -1,9 +1,7 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 module BitBucket
   class Repos::Services < API
-
-    REQUIRED_KEY_PARAM_NAMES = %w[ type ].freeze
+    REQUIRED_KEY_PARAM_NAMES = %w[type].freeze
 
     # List services
     #
@@ -12,16 +10,17 @@ module BitBucket
     #  bitbucket.repos.services.list 'user-name', 'repo-name'
     #  bitbucket.repos.services.list 'user-name', 'repo-name' { |service| ... }
     #
-    def list(user_name, repo_name, params={})
+    def list(user_name, repo_name, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params
 
       response = get_request("/1.0/repositories/#{user}/#{repo.downcase}/services", params)
       return response unless block_given?
+
       response.each { |el| yield el }
     end
-    alias :all :list
+    alias all list
 
     # Gets a single service
     #
@@ -29,7 +28,7 @@ module BitBucket
     #  @bitbucket = BitBucket.new
     #  @bitbucket.repos.services.get 'user-name', 'repo-name', 109172378)
     #
-    def get(user_name, repo_name, service_id, params={})
+    def get(user_name, repo_name, service_id, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       _validate_presence_of(service_id)
@@ -37,7 +36,7 @@ module BitBucket
 
       get_request("/1.0/repositories/#{user}/#{repo.downcase}/services/#{service_id}", params)
     end
-    alias :find :get
+    alias find get
 
     # Create a service
     #
@@ -52,7 +51,7 @@ module BitBucket
     #    "Username"       => "...",
     #    "Discussion URL" => "..."
     #
-    def create(user_name, repo_name, params={})
+    def create(user_name, repo_name, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params
@@ -74,7 +73,7 @@ module BitBucket
     #    "Username"       => "...",
     #    "Discussion URL" => "..."
     #
-    def edit(user_name, repo_name, service_id, params={})
+    def edit(user_name, repo_name, service_id, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       _validate_presence_of(service_id)
@@ -90,7 +89,7 @@ module BitBucket
     #  @bitbucket = BitBucket.new
     #  @bitbucket.repos.services.delete 'user-name', 'repo-name', 109172378
     #
-    def delete(user_name, repo_name, service_id, params={})
+    def delete(user_name, repo_name, service_id, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       _validate_presence_of(service_id)
@@ -98,6 +97,5 @@ module BitBucket
 
       delete_request("/1.0/repositories/#{user}/#{repo.downcase}/services/#{service_id}", params)
     end
-
   end # Repos::Keys
 end # BitBucket

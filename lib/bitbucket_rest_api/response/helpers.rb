@@ -1,10 +1,8 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 require 'faraday'
 
 module BitBucket
   class Response::Helpers < Response
-
     def on_complete(env)
       env[:body].class.class_eval <<-RUBY_EVAL, __FILE__, __LINE__ + 1
         include BitBucket::Result
@@ -16,6 +14,5 @@ module BitBucket
       RUBY_EVAL
       env[:body].instance_eval { @env = env }
     end
-
   end # Response::Helpers
 end # BitBucket

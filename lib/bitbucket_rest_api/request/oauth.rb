@@ -1,5 +1,4 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 require 'faraday'
 
 module BitBucket
@@ -7,7 +6,7 @@ module BitBucket
     class OAuth < Faraday::Middleware
       include BitBucket::Utils::Url
 
-      AUTH_HEADER  = 'Authorization'.freeze
+      AUTH_HEADER = 'Authorization'
 
       dependency 'simple_oauth'
 
@@ -15,9 +14,9 @@ module BitBucket
         # Extract parameters from the query
         request = Rack::Request.new env
         env[:url] = URI.parse(request.url) if env[:url].nil?
-        params = {  }.update query_params(env[:url])
+        params = {}.update query_params(env[:url])
 
-        if (@token and @secret) and (!@token.empty? and !@secret.empty?)
+        if (@token && @secret) && (!@token.empty? && !@secret.empty?)
           access_token = ::OAuth::AccessToken.new(@consumer, @token, @secret)
           env[:url].query = build_query params
 
@@ -26,9 +25,7 @@ module BitBucket
           env[:request_headers].merge!(AUTH_HEADER => oauth_helper.header)
         end
 
-          env[:url].query = build_query params
-
-
+        env[:url].query = build_query params
 
         @app.call env
       end
@@ -42,7 +39,7 @@ module BitBucket
       end
 
       def query_params(url)
-        if url.query.nil? or url.query.empty?
+        if url.query.nil? || url.query.empty?
           {}
         else
           parse_query url.query

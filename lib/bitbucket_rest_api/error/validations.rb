@@ -1,15 +1,14 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 module BitBucket #:nodoc
   # Raised when passed parameters are missing or contain wrong values.
   module Error
     class Validations < ClientError
-      def initialize(errors)
+      def initialize(_errors)
         super(
           generate_message(
-            :problem => '',
-            :summary => '',
-            :resolution => ''
+            problem: '',
+            summary: '',
+            resolution: ''
           )
         )
       end

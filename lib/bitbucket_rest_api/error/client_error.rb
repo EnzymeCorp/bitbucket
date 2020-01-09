@@ -1,5 +1,4 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 module BitBucket #:nodoc
   # Raised when BitBucket returns the HTTP status code 404
   module Error
@@ -11,9 +10,9 @@ module BitBucket #:nodoc
       end
 
       def generate_message(attributes)
-        "\nProblem:\n #{attributes[:problem]}"+
-        "\nSummary:\n #{attributes[:summary]}"+
-        "\nResolution:\n #{attributes[:resolution]}"
+        "\nProblem:\n #{attributes[:problem]}" \
+          "\nSummary:\n #{attributes[:summary]}" \
+          "\nResolution:\n #{attributes[:resolution]}"
       end
     end
   end # Error

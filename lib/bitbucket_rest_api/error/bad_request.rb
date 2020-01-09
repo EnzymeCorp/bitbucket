@@ -1,5 +1,4 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 module BitBucket
   module Error
     # Raised when BitBucket returns the HTTP status code 400

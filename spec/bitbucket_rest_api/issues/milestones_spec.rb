@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe BitBucket::Issues::Milestones do
@@ -10,7 +11,7 @@ describe BitBucket::Issues::Milestones do
         '/1.0/repositories/mock_username/mock_repo/issues/milestones',
         {},
         {}
-      ).and_return(['milsetone1', 'milestone2', 'milestone3'])
+      ).and_return(%w[milsetone1 milestone2 milestone3])
     end
 
     context 'without a block' do

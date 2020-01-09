@@ -1,5 +1,4 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 require 'faraday'
 require 'faraday_middleware'
 require 'bitbucket_rest_api/response'
@@ -13,36 +12,37 @@ require 'bitbucket_rest_api/request/jsonize'
 
 module BitBucket
   module Connection
-    extend self
+    module_function
+
     include BitBucket::Constants
 
-    ALLOWED_OPTIONS = [
-        :headers,
-        :url,
-        :params,
-        :request,
-        :ssl
+    ALLOWED_OPTIONS = %i[
+      headers
+      url
+      params
+      request
+      ssl
     ].freeze
 
-    def default_options(options={})
+    def default_options(options = {})
       {
-          :headers => {
-              USER_AGENT       => user_agent
-          },
-          :ssl => { :verify => false },
-          :url => options.fetch(:endpoint) { BitBucket.endpoint }
+        headers: {
+          USER_AGENT => user_agent
+        },
+        ssl: { verify: false },
+        url: options.fetch(:endpoint) { BitBucket.endpoint }
       }.merge(options)
     end
 
     # Default middleware stack that uses default adapter as specified at
     # configuration stage.
     #
-    def default_middleware(options={})
-      Proc.new do |builder|
-        #builder.use BitBucket::Request::Jsonize
+    def default_middleware(options = {})
+      proc do |builder|
+        # builder.use BitBucket::Request::Jsonize
         builder.use Faraday::Request::Multipart
         builder.use Faraday::Request::UrlEncoded
-        builder.use FaradayMiddleware::OAuth, {:consumer_key => client_id, :consumer_secret => client_secret, :token => oauth_token, :token_secret => oauth_secret} if client_id? and client_secret?
+        builder.use FaradayMiddleware::OAuth, consumer_key: client_id, consumer_secret: client_secret, token: oauth_token, token_secret: oauth_secret if client_id? && client_secret?
         builder.use BitBucket::Request::BasicAuth, authentication if basic_authed?
         builder.use FaradayMiddleware::EncodeJson
 
@@ -72,7 +72,7 @@ module BitBucket
     # Exposes middleware builder to facilitate custom stacks and easy
     # addition of new extensions such as cache adapter.
     #
-    def stack(options={}, &block)
+    def stack(options = {}, &block)
       @stack ||= begin
         if block_given?
           Faraday::RackBuilder.new(&block)
@@ -89,10 +89,9 @@ module BitBucket
       clear_cache unless options.empty?
       puts "OPTIONS:#{conn_options.inspect}" if ENV['DEBUG']
 
-      @connection ||= Faraday.new(conn_options.merge(:builder => stack(options))) do |faraday|
+      @connection ||= Faraday.new(conn_options.merge(builder: stack(options))) do |faraday|
         faraday.response :logger if ENV['DEBUG']
       end
     end
-
   end # Connection
 end # BitBucket

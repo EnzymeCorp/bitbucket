@@ -1,10 +1,9 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 module BitBucket
   module Result
     include BitBucket::Constants
 
-    # TODO Add result counts method to check total items looking at result links
+    # TODO: Add result counts method to check total items looking at result links
 
     def ratelimit_limit
       loaded? ? @env[:response_headers][RATELIMIT_LIMIT] : nil
@@ -67,10 +66,8 @@ module BitBucket
     # Iterator like each for response pages. If there are no pages to
     # iterate over this method will return nothing.
     def each_page
-      yield self.body
-      while page_iterator.has_next?
-        yield next_page
-      end
+      yield body
+      yield next_page while page_iterator.has_next?
     end
 
     # Retrives the result of the first page. Returns <tt>nil</tt> if there is
@@ -78,34 +75,34 @@ module BitBucket
     # or there are no pages at all in the result.
     def first_page
       first_request = page_iterator.first
-      self.instance_eval { @env = first_request.env } if first_request
-      self.body
+      instance_eval { @env = first_request.env } if first_request
+      body
     end
 
     # Retrives the result of the next page. Returns <tt>nil</tt> if there is
     # no next page or no pages at all.
     def next_page
       next_request = page_iterator.next
-      self.instance_eval { @env = next_request.env } if next_request
-      self.body
+      instance_eval { @env = next_request.env } if next_request
+      body
     end
 
     # Retrives the result of the previous page. Returns <tt>nil</tt> if there is
     # no previous page or no pages at all.
     def prev_page
       prev_request = page_iterator.prev
-      self.instance_eval { @env = prev_request.env } if prev_request
-      self.body
+      instance_eval { @env = prev_request.env } if prev_request
+      body
     end
-    alias :previous_page :prev_page
+    alias previous_page prev_page
 
     # Retrives the result of the last page. Returns <tt>nil</tt> if there is
     # no last page - either because you are already on the last page,
     # there is only one page or there are no pages at all in the result.
     def last_page
       last_request = page_iterator.last
-      self.instance_eval { @env = last_request.env } if last_request
-      self.body
+      instance_eval { @env = last_request.env } if last_request
+      body
     end
 
     # Retrives a specific result for a page given page number.
@@ -114,8 +111,8 @@ module BitBucket
     # there is only one page, this method returns nil
     def page(page_number)
       request = page_iterator.get_page(page_number)
-      self.instance_eval { @env = request.env } if request
-      self.body
+      instance_eval { @env = request.env } if request
+      body
     end
 
     # Returns <tt>true</tt> if there is another page in the result set,
@@ -135,6 +132,5 @@ module BitBucket
     def page_iterator # :nodoc:
       @@page_iterator = BitBucket::PageIterator.new(@env)
     end
-
   end # Result
 end # BitBucket

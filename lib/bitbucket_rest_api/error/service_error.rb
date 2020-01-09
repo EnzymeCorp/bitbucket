@@ -1,5 +1,4 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 module BitBucket #:nodoc
   # Raised when BitBucket returns any of the HTTP status codes
   module Error
@@ -12,7 +11,7 @@ module BitBucket #:nodoc
       end
 
       def generate_message(env)
-        "#{env[:method].to_s.upcase} #{env[:url].to_s}: #{env[:status]} #{env[:body]}"
+        "#{env[:method].to_s.upcase} #{env[:url]}: #{env[:status]} #{env[:body]}"
       end
     end
   end # Error

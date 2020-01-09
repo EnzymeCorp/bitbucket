@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe BitBucket::Teams do
@@ -10,7 +11,7 @@ describe BitBucket::Teams do
         '/2.0/teams/?role=member',
         {},
         {}
-      ).and_return({"values" => ['team1', 'team2', 'team3']})
+      ).and_return('values' => %w[team1 team2 team3])
     end
 
     context 'without a block' do
@@ -48,16 +49,16 @@ describe BitBucket::Teams do
         '/2.0/teams/team_name/members',
         {},
         {}
-      ).and_return({"values" => ['member1', 'member2', 'member3']})
+      ).and_return('values' => %w[member1 member2 member3])
     end
 
-    context "without a block" do
+    context 'without a block' do
       it 'sends a GET request for the members of the team' do
         team.members('team_name')
       end
     end
 
-    context "with a block" do
+    context 'with a block' do
       it 'sends a GET request for the members of the team' do
         team.members('team_name') { |member| member }
       end
@@ -71,16 +72,16 @@ describe BitBucket::Teams do
         '/2.0/teams/team_name/followers',
         {},
         {}
-      ).and_return({"values" => ['follower1', 'follower2', 'follower3']})
+      ).and_return('values' => %w[follower1 follower2 follower3])
     end
 
-    context "without a block" do
+    context 'without a block' do
       it 'sends a GET request for the followers of the team' do
         team.followers('team_name')
       end
     end
 
-    context "with a block" do
+    context 'with a block' do
       it 'sends a GET request for the followers of the team' do
         team.followers('team_name') { |follower| follower }
       end
@@ -94,16 +95,16 @@ describe BitBucket::Teams do
         '/2.0/teams/team_name/following',
         {},
         {}
-      ).and_return({"values" => ['following1', 'following2', 'following3']})
+      ).and_return('values' => %w[following1 following2 following3])
     end
 
-    context "without a block" do
+    context 'without a block' do
       it 'sends a GET request for accounts the team is following' do
         team.following('team_name')
       end
     end
 
-    context "with a block" do
+    context 'with a block' do
       it 'sends a GET request for accounts the team is following' do
         team.following('team_name') { |followee| followee }
       end
@@ -117,16 +118,16 @@ describe BitBucket::Teams do
         '/2.0/repositories/team_name',
         {},
         {}
-      ).and_return({"values" => ['repo1', 'repo2', 'repo3']})
+      ).and_return('values' => %w[repo1 repo2 repo3])
     end
 
-    context "without a block" do
+    context 'without a block' do
       it 'sends a GET request for the repos for the team' do
         team.repos('team_name')
       end
     end
 
-    context "with a block" do
+    context 'with a block' do
       it 'sends a GET request for the repos for the team' do
         team.repos('team_name') { |repo| repo }
       end

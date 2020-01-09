@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe BitBucket::Repos::Keys do
@@ -9,7 +10,7 @@ describe BitBucket::Repos::Keys do
         '/1.0/repositories/mock_username/mock_repo/deploy-keys/',
         {},
         {}
-      ).and_return(['key1', 'key2', 'key3'])
+      ).and_return(%w[key1 key2 key3])
     end
 
     context 'without a block' do
@@ -31,27 +32,27 @@ describe BitBucket::Repos::Keys do
         :post,
         '/1.0/repositories/mock_username/mock_repo/deploy-keys/',
         { 'key' => 'mock_ssh_key', 'label' => 'mock_label' },
-        { headers: {"Content-Type"=>"application/json"} }
+        headers: { 'Content-Type' => 'application/json' }
       )
     end
 
     it 'should make a POST request for the deploy keys belonging to the given repo' do
-      deploy_keys.create('mock_username', 'mock_repo', { key: 'mock_ssh_key', label: 'mock_label' })
+      deploy_keys.create('mock_username', 'mock_repo', key: 'mock_ssh_key', label: 'mock_label')
     end
   end
 
   describe '.edit' do
     before do
       expect(deploy_keys).to receive(:request).with(
-         :put,
-         '/1.0/repositories/mock_username/mock_repo/deploy-keys/1',
-         { 'key' => 'mock_ssh_key', 'label' => 'mock_label' },
-         {}
-       )
+        :put,
+        '/1.0/repositories/mock_username/mock_repo/deploy-keys/1',
+        { 'key' => 'mock_ssh_key', 'label' => 'mock_label' },
+        {}
+      )
     end
 
     it 'should make a PUT request for the deploy keys belonging to the given repo' do
-      deploy_keys.edit('mock_username', 'mock_repo', 1, { key: 'mock_ssh_key', label: 'mock_label' })
+      deploy_keys.edit('mock_username', 'mock_repo', 1, key: 'mock_ssh_key', label: 'mock_label')
     end
   end
 
@@ -66,7 +67,7 @@ describe BitBucket::Repos::Keys do
     end
 
     it 'should make a DELETE request for the deploy keys belonging to the given repo' do
-      deploy_keys.delete('mock_username', 'mock_repo', 'mock_id', { key: 'mock_ssh_key', label: 'mock_label' })
+      deploy_keys.delete('mock_username', 'mock_repo', 'mock_id', key: 'mock_ssh_key', label: 'mock_label')
     end
   end
 end

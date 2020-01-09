@@ -1,13 +1,11 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 module BitBucket
   class Client < API
-
     # This is a read-only API to the BitBucket events.
     # These events power the various activity streams on the site.
-    def events(options = {})
-      raise "Unimplemented"
-      #@events ||= ApiFactory.new 'Events', options
+    def events(_options = {})
+      raise 'Unimplemented'
+      # @events ||= ApiFactory.new 'Events', options
     end
 
     def issues(options = {})
@@ -18,7 +16,7 @@ module BitBucket
     def oauth(options = {})
       @oauth ||= ApiFactory.new 'Request::OAuth', options
     end
-    alias :authorizations :oauth
+    alias authorizations oauth
 
     def teams(options = {})
       @teams ||= ApiFactory.new 'Teams', options
@@ -31,11 +29,11 @@ module BitBucket
     def repos(options = {})
       @repos ||= ApiFactory.new 'Repos', options
     end
-    alias :repositories :repos
+    alias repositories repos
 
-    def search(options = {})
-      raise "Unimplemented"
-      #@search ||= ApiFactory.new 'Search', options
+    def search(_options = {})
+      raise 'Unimplemented'
+      # @search ||= ApiFactory.new 'Search', options
     end
 
     # Many of the resources on the users API provide a shortcut for getting
@@ -49,7 +47,7 @@ module BitBucket
     end
 
     def invitations(options = {})
-      @invitations ||= ApiFactory.new "Invitations", options
+      @invitations ||= ApiFactory.new 'Invitations', options
     end
   end # Client
 end # BitBucket

@@ -1,58 +1,57 @@
+# frozen_string_literal: true
 module BitBucket
   module Constants
-    extend self
+    module_function
 
     # Response headers
-    RATELIMIT_REMAINING = 'X-RateLimit-Remaining'.freeze
+    RATELIMIT_REMAINING = 'X-RateLimit-Remaining'
 
-    RATELIMIT_LIMIT = 'X-RateLimit-Limit'.freeze
+    RATELIMIT_LIMIT = 'X-RateLimit-Limit'
 
-    CONTENT_TYPE = 'Content-Type'.freeze
+    CONTENT_TYPE = 'Content-Type'
 
-    CONTENT_LENGTH = 'content-length'.freeze
+    CONTENT_LENGTH = 'content-length'
 
-    CACHE_CONTROL = 'cache-control'.freeze
+    CACHE_CONTROL = 'cache-control'
 
-    ETAG = 'ETag'.freeze
+    ETAG = 'ETag'
 
-    SERVER = 'Server'.freeze
+    SERVER = 'Server'
 
-    DATE = 'Date'.freeze
+    DATE = 'Date'
 
-    LOCATION = 'Location'.freeze
+    LOCATION = 'Location'
 
-    USER_AGENT = 'User-Agent'.freeze
+    USER_AGENT = 'User-Agent'
 
-    ACCEPT = 'Accept'.freeze
+    ACCEPT = 'Accept'
 
-    ACCEPT_CHARSET = 'Accept-Charset'.freeze
+    ACCEPT_CHARSET = 'Accept-Charset'
 
     # Link headers
-    HEADER_LINK = "Link".freeze
+    HEADER_LINK = 'Link'
 
-    HEADER_NEXT = "X-Next".freeze
+    HEADER_NEXT = 'X-Next'
 
-    HEADER_LAST = "X-Last".freeze
+    HEADER_LAST = 'X-Last'
 
-    META_REL = "rel".freeze
+    META_REL = 'rel'
 
-    META_LAST = "last".freeze
+    META_LAST = 'last'
 
-    META_NEXT = "next".freeze
+    META_NEXT = 'next'
 
-    META_FIRST = "first".freeze
+    META_FIRST = 'first'
 
-    META_PREV = "prev".freeze
+    META_PREV = 'prev'
 
-    PARAM_PAGE = "page".freeze
+    PARAM_PAGE = 'page'
 
-    PARAM_PER_PAGE = "per_page".freeze
+    PARAM_PER_PAGE = 'per_page'
 
-    PARAM_START_PAGE = "start_page".freeze
+    PARAM_START_PAGE = 'start_page'
 
     # URI parsing
-    QUERY_STR_SEP = '?'.freeze
-
-
+    QUERY_STR_SEP = '?'
   end # Constants
 end # BitBucket

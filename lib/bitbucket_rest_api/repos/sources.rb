@@ -1,8 +1,6 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 module BitBucket
   class Repos::Sources < API
-
     # Gets a list of the src in a repository.
     #
     # = Examples
@@ -16,7 +14,7 @@ module BitBucket
 
       get_request("/1.0/repositories/#{user}/#{repo.downcase}/src/#{sha}/#{path}")
     end
-    alias :all :list
+    alias all list
 
     # Gets information about an individual file. This method returns the file's
     # size and contents.  If the file is encoded, this method returns the files
@@ -33,7 +31,6 @@ module BitBucket
 
       get_request("/1.0/repositories/#{user}/#{repo.downcase}/raw/#{sha}/#{path}")
     end
-    alias :find :get
-
+    alias find get
   end # Repos::Sources
 end # BitBucket

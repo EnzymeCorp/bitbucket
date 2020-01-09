@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe BitBucket::Validations::Required do
@@ -8,10 +9,10 @@ describe BitBucket::Validations::Required do
   let(:spec_class) { SpecClass.new }
   let(:params_with_blank) do
     {
-      'title' => "mock_title",
+      'title' => 'mock_title',
       'source' => {
         'branch' => {
-          'name' => ""
+          'name' => ''
         }
       }
     }
@@ -20,7 +21,7 @@ describe BitBucket::Validations::Required do
   describe '#parse_values' do
     it 'parses a colon separated string to an array' do
       result = spec_class.parse_values('hello:world')
-      expectation = ['hello', 'world']
+      expectation = %w[hello world]
 
       expect(result).to eq(expectation)
     end

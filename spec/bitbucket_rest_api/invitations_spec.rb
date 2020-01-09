@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe BitBucket::Invitations do
@@ -7,8 +8,8 @@ describe BitBucket::Invitations do
     before do
       expect(subject).to receive(:request).with(
         :post,
-        "/1.0/invitations/mock_username/mock_repo/mock_email_address",
-        { :permission => 'read' },
+        '/1.0/invitations/mock_username/mock_repo/mock_email_address',
+        { permission: 'read' },
         {}
       )
     end
@@ -18,4 +19,3 @@ describe BitBucket::Invitations do
     end
   end
 end
-

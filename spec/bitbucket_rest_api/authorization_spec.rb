@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe BitBucket::Authorization do
@@ -5,12 +6,13 @@ describe BitBucket::Authorization do
   let(:basic_auth_api) { BitBucket::API.new(basic_auth: 'example_login:example_password') }
   let(:basic_auth_api_hash) do
     BitBucket::API.new(
-      basic_auth: { login: 'example_login', password: 'example_password' })
+      basic_auth: { login: 'example_login', password: 'example_password' }
+    )
   end
   let(:login_and_password_api) do
     BitBucket::API.new(
-      login:      'example_login',
-      password:   'example_password',
+      login: 'example_login',
+      password: 'example_password',
       basic_auth: nil
     )
   end
@@ -55,7 +57,7 @@ describe BitBucket::Authorization do
 
     context 'with basic_auth as a hash' do
       it 'should return a hash containing the value for :basic_auth' do
-        expectation = { basic_auth: { login: 'example_login', password: 'example_password'} }
+        expectation = { basic_auth: { login: 'example_login', password: 'example_password' } }
 
         expect(basic_auth_api_hash.authentication).to eq(expectation)
       end

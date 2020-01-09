@@ -1,9 +1,7 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 module BitBucket
   class Repos::Commits < API
-
-    VALID_KEY_PARAM_NAMES = %w(include exclude).freeze
+    VALID_KEY_PARAM_NAMES = %w[include exclude].freeze
 
     # Gets the commit information associated with a repository. By default, this
     # call returns all the commits across all branches, bookmarks, and tags. The
@@ -22,7 +20,7 @@ module BitBucket
     #    "include" => "feature-branch",
     #    "exclude" =>  "master"
     #
-    def list(user_name, repo_name, branchortag=nil, params={})
+    def list(user_name, repo_name, branchortag = nil, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params
@@ -32,9 +30,9 @@ module BitBucket
       path << "/#{branchortag}" if branchortag
       response = get_request(path, params)
       return response unless block_given?
+
       response.each { |el| yield el }
     end
-    alias :all :list
-
+    alias all list
   end # Repos::Commits
 end # BitBucket

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe BitBucket::Issues::Components do
@@ -10,7 +11,7 @@ describe BitBucket::Issues::Components do
         '/1.0/repositories/mock_username/mock_repo/issues/components',
         {},
         {}
-      ).and_return(['component1', 'component2', 'component3'])
+      ).and_return(%w[component1 component2 component3])
     end
 
     context 'without a block' do

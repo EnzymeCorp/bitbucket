@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe BitBucket::Repos::PullRequest do
@@ -9,7 +10,7 @@ describe BitBucket::Repos::PullRequest do
         '/2.0/repositories/mock_user/mock_repo/pullrequests',
         {},
         {}
-      ).and_return(['pr1', 'pr2', 'pr3'])
+      ).and_return(%w[pr1 pr2 pr3])
     end
 
     context 'without a block' do
@@ -29,10 +30,10 @@ describe BitBucket::Repos::PullRequest do
     before do
       expect(subject).to receive(:request).with(
         :get,
-        "/1.0/repositories/mock_user/mock_repo/pullrequests/mock_pull_request_id/participants",
+        '/1.0/repositories/mock_user/mock_repo/pullrequests/mock_pull_request_id/participants',
         {},
         {}
-      ).and_return(['participant1', 'participant2', 'participant3'])
+      ).and_return(%w[participant1 participant2 participant3])
     end
 
     context 'without a block' do
@@ -52,7 +53,7 @@ describe BitBucket::Repos::PullRequest do
     before do
       expect(subject).to receive(:request).with(
         :get,
-        "/2.0/repositories/mock_user/mock_repo/pullrequests/mock_pull_request_id",
+        '/2.0/repositories/mock_user/mock_repo/pullrequests/mock_pull_request_id',
         {}
       )
     end
@@ -65,22 +66,22 @@ describe BitBucket::Repos::PullRequest do
   describe '#create' do
     before do
       @params = {
-        title: "mock_pr_title",
-        description: "mock_pull_request_description",
+        title: 'mock_pr_title',
+        description: 'mock_pull_request_description',
         source: {
           branch: {
-            name: "mock_source_branch_name"
+            name: 'mock_source_branch_name'
           },
           repository: {
-            full_name: "mock_owner/mock_repo"
+            full_name: 'mock_owner/mock_repo'
           }
         },
         destination: {
           branch: {
-            name: "mock_destination_branch_name"
+            name: 'mock_destination_branch_name'
           },
           commit: {
-            hash: "mock_uuid"
+            hash: 'mock_uuid'
           }
         },
         close_source_branch: true
@@ -99,31 +100,29 @@ describe BitBucket::Repos::PullRequest do
 
     it 'validates presence of required params' do
       expect do
-      subject.create(
-        'mock_user',
-        'mock_repo',
-        {
-          title: "",
-          description: "mock_pull_request_description",
+        subject.create(
+          'mock_user',
+          'mock_repo',
+          title: '',
+          description: 'mock_pull_request_description',
           source: {
             branch: {
-              name: "mock_source_branch_name"
+              name: 'mock_source_branch_name'
             },
             repository: {
-              full_name: "mock_owner/mock_repo"
+              full_name: 'mock_owner/mock_repo'
             }
           },
           destination: {
             branch: {
-              name: "mock_destination_branch_name"
+              name: 'mock_destination_branch_name'
             },
             commit: {
-              hash: "mock_uuid"
+              hash: 'mock_uuid'
             }
           },
           close_source_branch: true
-        }
-      )
+        )
       end.to raise_error
     end
   end
@@ -184,7 +183,6 @@ describe BitBucket::Repos::PullRequest do
     end
   end
 
-
   describe '.diff' do
     before do
       expect(subject).to receive(:request).with(
@@ -213,7 +211,6 @@ describe BitBucket::Repos::PullRequest do
     end
   end
 
-
   describe '.activity' do
     before do
       expect(subject).to receive(:request).with(
@@ -227,7 +224,6 @@ describe BitBucket::Repos::PullRequest do
       subject.activity('mock_user', 'mock_repo', 'mock_id')
     end
   end
-
 
   describe '.accept_and_merge' do
     before do
@@ -256,7 +252,6 @@ describe BitBucket::Repos::PullRequest do
       subject.decline('mock_user', 'mock_repo', 'mock_id')
     end
   end
-
 
   describe '.comments' do
     before do

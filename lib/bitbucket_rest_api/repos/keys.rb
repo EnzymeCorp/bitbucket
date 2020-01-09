@@ -1,9 +1,7 @@
-# encoding: utf-8
-
+# frozen_string_literal: true
 module BitBucket
   class Repos::Keys < API
-
-    VALID_KEY_PARAM_NAMES = %w[ label key ].freeze
+    VALID_KEY_PARAM_NAMES = %w[label key].freeze
 
     # List deploy keys
     #
@@ -12,16 +10,17 @@ module BitBucket
     #  bitbucket.repos.keys.list 'user-name', 'repo-name'
     #  bitbucket.repos.keys.list 'user-name', 'repo-name' { |key| ... }
     #
-    def list(user_name, repo_name, params={})
+    def list(user_name, repo_name, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params
 
       response = get_request("/1.0/repositories/#{user}/#{repo}/deploy-keys/", params)
       return response unless block_given?
+
       response.each { |el| yield el }
     end
-    alias :all :list
+    alias all list
 
     # Create a key
     #
@@ -35,14 +34,14 @@ module BitBucket
     #    "label" => "octocat@octomac",
     #    "key" =>  "ssh-rsa AAA..."
     #
-    def create(user_name, repo_name, params={})
+    def create(user_name, repo_name, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       normalize! params
       filter! VALID_KEY_PARAM_NAMES, params
       assert_required_keys(VALID_KEY_PARAM_NAMES, params)
 
-      options = { headers: { "Content-Type" => "application/json" } }
+      options = { headers: { 'Content-Type' => 'application/json' } }
       post_request("/1.0/repositories/#{user}/#{repo}/deploy-keys/", params, options)
     end
 
@@ -58,7 +57,7 @@ module BitBucket
     #    "label" => "octocat@octomac",
     #    "key" =>  "ssh-rsa AAA..."
     #
-    def edit(user_name, repo_name, key_id, params={})
+    def edit(user_name, repo_name, key_id, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       _validate_presence_of key_id
@@ -75,7 +74,7 @@ module BitBucket
     #  @bitbucket = BitBucket.new
     #  @bitbucket.repos.keys.delete 'user-name', 'repo-name', 'key-id'
     #
-    def delete(user_name, repo_name, key_id, params={})
+    def delete(user_name, repo_name, key_id, params = {})
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
       _validate_presence_of key_id
@@ -83,6 +82,5 @@ module BitBucket
 
       delete_request("/1.0/repositories/#{user}/#{repo}/deploy-keys/#{key_id}", params)
     end
-
   end # Repos::Keys
 end # BitBucket

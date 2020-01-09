@@ -1,13 +1,14 @@
+# frozen_string_literal: true
 require 'spec_helper'
 
 describe BitBucket::User do
   let(:options) do
     {
-      client_id:     'example_client_id',
+      client_id: 'example_client_id',
       client_secret: 'example_client_secret',
-      oauth_token:   'example_oauth_token',
-      oauth_secret:  'example_oauth_secret',
-      adapter:       :net_http
+      oauth_token: 'example_oauth_token',
+      oauth_secret: 'example_oauth_secret',
+      adapter: :net_http
     }
   end
 

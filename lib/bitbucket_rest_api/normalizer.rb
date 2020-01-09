@@ -1,9 +1,7 @@
-# -*- encoding: utf-8 -*-
-
+# frozen_string_literal: true
 module BitBucket
   # Deals with normalizing client supplied parameter keys.
   module Normalizer
-
     # Turns any keys from nested hashes including nested arrays into strings
     #
     def normalize!(params)
@@ -20,8 +18,7 @@ module BitBucket
       else
         params.to_s
       end
-      return params
+      params
     end
-
   end # Normalizer
 end # BitBucket

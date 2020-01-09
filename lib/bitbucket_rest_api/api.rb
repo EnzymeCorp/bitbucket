@@ -1,5 +1,4 @@
-# -*- encoding: utf-8 -*-
-
+# frozen_string_literal: true
 require 'bitbucket_rest_api/configuration'
 require 'bitbucket_rest_api/connection'
 require 'bitbucket_rest_api/validations'
@@ -15,7 +14,7 @@ module BitBucket
     include Connection
     include Request
 
-    # TODO consider these optional in a stack
+    # TODO: consider these optional in a stack
     include Validations
     include ParameterFilter
     include Normalizer
@@ -28,22 +27,22 @@ module BitBucket
     class_eval do
       Configuration::VALID_OPTIONS_KEYS.each do |key|
         define_method "#{key}=" do |arg|
-          self.instance_variable_set("@#{key}", arg)
+          instance_variable_set("@#{key}", arg)
           BitBucket.send("#{key}=", arg)
         end
       end
     end
 
     # Creates new API
-    def initialize(options={}, &block)
+    def initialize(options = {}, &block)
       super()
       setup options
       set_api_client
 
-      self.instance_eval(&block) if block_given?
+      instance_eval(&block) if block_given?
     end
 
-    def setup(options={})
+    def setup(options = {})
       options = BitBucket.options.merge(options)
       Configuration::VALID_OPTIONS_KEYS.each do |key|
         send("#{key}=", options[key])
@@ -71,36 +70,35 @@ module BitBucket
     def method_missing(method, *args, &block) # :nodoc:
       case method.to_s
       when /^(.*)\?$/
-        return !self.send($1.to_s).nil?
+        !send(Regexp.last_match(1).to_s).nil?
       when /^clear_(.*)$/
-        self.send("#{$1.to_s}=", nil)
+        send("#{Regexp.last_match(1)}=", nil)
       else
         super
       end
     end
 
-    def update_and_validate_user_repo_params(user_name, repo_name=nil)
+    def update_and_validate_user_repo_params(user_name, repo_name = nil)
       _update_user_repo_params(user_name, repo_name)
       _validate_user_repo_params(user, repo) unless user? && repo?
     end
 
-    def _update_user_repo_params(user_name, repo_name=nil) # :nodoc:
-      self.user = user_name || self.user
-      self.repo = repo_name || self.repo
+    def _update_user_repo_params(user_name, repo_name = nil) # :nodoc:
+      self.user = user_name || user
+      self.repo = repo_name || repo
     end
 
-    def _merge_user_into_params!(params)  #  :nodoc:
-      params.merge!({ 'user' => self.user }) if user?
+    def _merge_user_into_params!(params) #  :nodoc:
+      params.merge!('user' => user) if user?
     end
 
-    def _merge_user_repo_into_params!(params)   #  :nodoc:
-      { 'user' => self.user, 'repo' => self.repo }.merge!(params)
+    def _merge_user_repo_into_params!(params) #  :nodoc:
+      { 'user' => user, 'repo' => repo }.merge!(params)
     end
 
     def _merge_mime_type(resource, params) # :nodoc:
-                                           #       params['resource'] = resource
-                                           #       params['mime_type'] = params['mime_type'] || :raw
+      #       params['resource'] = resource
+      #       params['mime_type'] = params['mime_type'] || :raw
     end
-
   end # API
 end # BitBucket
