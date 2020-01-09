@@ -7,7 +7,7 @@ Gem::Specification.new do |gem|
   gem.authors       = ['Enzyme']
   gem.email         = 'noreply@enzyme.com'
   gem.homepage      = 'https://github.com/EnzymeCorp/bitbucket'
-  gem.summary       = 'Ruby wrapper for the BitBucket API supporting OAuth and Basic Authentication'
+  gem.summary       = 'This is a fork of the bitbucket_rest_api with newer dependencies'
   gem.description   = 'Ruby wrapper for the BitBucket API supporting OAuth and Basic Authentication'
   gem.version       = BitBucket::VERSION::STRING.dup
   gem.license       = 'MIT'
